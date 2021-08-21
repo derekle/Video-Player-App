@@ -1,0 +1,27 @@
+body {
+	background-color: black;
+	color: white;
+	font-family: Lato;
+	padding-left: 10px;
+}
+header {
+	font-size: 100px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+#userTableHead,
+#roomTableHead {
+	font-size: 50px;
+	font-weight: normal;
+	text-align: right;
+}
+
+.userList tr:hover {
+	font-weight: bold;
+}
+.roomList tr:hover {
+	font-weight: bold;
+}
