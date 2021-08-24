@@ -12,16 +12,16 @@ table {
 	border-collapse: collapse;
 }
 
-#userTableHead,
-#roomTableHead {
+#usersTableHead,
+#roomsTableHead {
 	font-size: 50px;
 	font-weight: normal;
-	text-align: right;
+	text-align: left;
 }
 
-.userList tr:hover {
+#usersTable tr:hover {
 	font-weight: bold;
 }
-.roomList tr:hover {
+#roomsTable tr:hover {
 	font-weight: bold;
 }
