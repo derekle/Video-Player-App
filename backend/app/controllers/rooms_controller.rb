@@ -1,10 +1,13 @@
 class RoomsController < ApplicationController
 	def index
 		rooms = Room.all
-		render json: rooms, except: [:created_at, :updated_at]
+		render json: rooms, except: [:created_at, :updated_at], include: [:users]
 	end
 
 	def create
+		p params[:name]
+		r = Room.create!(name: params[:name])
+		render json: r, except: [:created_at, :updated_at], include: [:users]
 	end
 
 	def show
