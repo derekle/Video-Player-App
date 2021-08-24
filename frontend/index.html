@@ -17,23 +17,44 @@
 
 	<body>
 		<header>JBox.</header>
-		<table class="userTable">
-			<tr>
-				<th id="userTableHead">Users</th>
-			</tr>
-			<tr>
-				<td class="userList"></td>
+		<h1>Current Room</h1>
+
+		<table id="usersTable">
+			<th id="usersTableHead" colspan="2">Users</th>
+			<tr colspan="2">
+				<td>
+					<form id="usersForm" class="form">
+						<input
+							type="text"
+							name="name"
+							id="name"
+						/>
+						<button type="submit">
+							Create
+						</button>
+					</form>
+				</td>
 			</tr>
 		</table>
 
-		<table class="roomTable">
-			<tr>
-				<th id="roomTableHead">Rooms</th>
-			</tr>
-			<tr>
-				<td class="roomList"></td>
+		<table id="roomsTable">
+			<th id="roomsTableHead" colspan="2">Rooms</th>
+			<tr colspan="2">
+				<td>
+					<form id="roomsForm" class="form">
+						<input
+							type="text"
+							name="name"
+							id="name"
+						/>
+						<button type="submit">
+							Create
+						</button>
+					</form>
+				</td>
 			</tr>
 		</table>
+		<audio id="player"></audio1>
 	</body>
 
 	<script src="index.js"></script>
