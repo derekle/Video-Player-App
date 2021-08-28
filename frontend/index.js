@@ -9,18 +9,22 @@ let Session = class {
 };
 let session = new Session(null, null, null, null, null);
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
 	// fetchTables('users');
 	// formaddEventListener('users');
-	fetchRoom();
-	formaddEventListener('rooms');
+	let data = await fetchRoom();
+	modifyTable('rooms', data);
+	formaddEventListener('rooms', 'post');
 });
 
-function formaddEventListener(resrc) {
+function formaddEventListener(resrc, method) {
 	document.getElementById(resrc + 'Form').addEventListener(
 		'submit',
-		function (event) {
-			fetchForm(event, resrc);
+		async function (event) {
+			console.log(resrc);
+			let request = fillForm(event, resrc, method);
+			data = await sendForm(request);
+			modifyTable(resrc, data);
 		}
 	);
 }
@@ -34,21 +38,17 @@ function convert(fd) {
 }
 
 async function roomClicked(n) {
+	console.log('roomClicked');
 	session.roomname = n;
 	document.getElementById('room-name').innerHTML = 'Room: ' + n;
 	const rid = await this.fetchRoomID();
 	session.roomID = rid;
 	const pid = await this.fetchPlaylistID();
 	session.playlistID = pid;
-
-	console.log('rid: ' + session.roomID);
-	console.log('pid: ' + session.playlistID);
-
 	if (session.username == null) {
 		buildUsersForm();
-		formaddEventListener('users');
+		formaddEventListener('users', 'post');
 	} else {
 		renderRoom();
-		fetchPlaylist('playlists/' + session.playlistID);
 	}
 }
