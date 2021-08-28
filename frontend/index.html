@@ -16,46 +16,44 @@
 	</head>
 
 	<body>
-		<header>JBox.</header>
-		<h1>Current Room</h1>
-
-		<table id="usersTable">
-			<th id="usersTableHead" colspan="2">Users</th>
-			<tr colspan="2">
-				<td>
-					<form id="usersForm" class="form">
-						<input
-							type="text"
-							name="name"
-							id="name"
-						/>
-						<button type="submit">
-							Create
-						</button>
-					</form>
-				</td>
-			</tr>
-		</table>
-
-		<table id="roomsTable">
-			<th id="roomsTableHead" colspan="2">Rooms</th>
-			<tr colspan="2">
-				<td>
-					<form id="roomsForm" class="form">
-						<input
-							type="text"
-							name="name"
-							id="name"
-						/>
-						<button type="submit">
-							Create
-						</button>
-					</form>
-				</td>
-			</tr>
-		</table>
-		<audio id="player"></audio1>
+		<div class="row">
+			<div class="column side">
+				<table id="roomsTable">
+					<thead colspan="2">
+						<th>Rooms</th>
+					</thead>
+					<thead>
+						<th colspan="2">
+							<form
+								id="roomsForm"
+								class="form"
+							>
+								<input
+									placeholder="Room Name"
+									type="text"
+									name="name"
+									id="name"
+								/>
+								<button
+									type="submit"
+								>
+									Create
+								</button>
+							</form>
+						</th>
+					</thead>
+					<tbody id="roomsBody"></tbody>
+				</table>
+			</div>
+			<div class="column main" id="main">
+				<header id="room-name">
+					Join A Room To Get Started
+				</header>
+				<header id="user name"></header>
+			</div>
+		</div>
 	</body>
-
+	<script src="elements.js"></script>
+	<script src="fetch.js"></script>
 	<script src="index.js"></script>
 </html>
