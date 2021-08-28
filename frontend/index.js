@@ -1,94 +1,54 @@
-document.addEventListener("DOMContentLoaded", function () {
-	buildTables("users");
-	buildTables("rooms");
+let Session = class {
+	constructor(roomname, roomID, username, userID, playlistID) {
+		this.roomname = roomname;
+		this.roomID = roomID;
+		this.username = username;
+		this.userID = userID;
+		this.playlistID = playlistID;
+	}
+};
+let session = new Session(null, null, null, null, null);
 
-	document
-		.getElementById("usersForm")
-		.addEventListener("submit", function (event) {
-			handleForm(event, "users");
-		});
-	document
-		.getElementById("roomsForm")
-		.addEventListener("submit", function (event) {
-			handleForm(event, "rooms");
-		});
+document.addEventListener('DOMContentLoaded', function () {
+	// fetchTables('users');
+	// formaddEventListener('users');
+	fetchRoom();
+	formaddEventListener('rooms');
 });
 
-function buildTables(resrc) {
-	fetch("http://localhost:3000/" + resrc)
-		//deserialize js to return objects
-		.then((result) => result.json())
-		//extract data from array of objects
-		.then((data) => {
-			console.log(data);
-			for (obj of data) {
-				const table = document.getElementById(resrc + "Table");
-				const row = table.insertRow();
-				if (resrc == "rooms") {
-					cell1 = row.insertCell(0);
-					cell2 = row.insertCell(1);
-
-					cell1.innerText = obj.name;
-					cell2.innerText = obj.users.length;
-				} else {
-					row.innerText = obj.name;
-					console.log(obj.name);
-				}
-			}
-		});
-}
-
-async function handleForm(ev, resrc) {
-	// stop page from refreshing on submit
-	ev.preventDefault();
-	let myForm = ev.target;
-	let fd = new FormData(myForm);
-	console.log(fd);
-	for (let key of fd.keys()) {
-		console.log(key, fd.get(key));
-	}
-	let json = await converFD2JSON(fd);
-	let url = "http://localhost:3000/" + resrc;
-	console.log(url);
-	let req = new Request(url, {
-		body: json,
-		method: "POST",
-		headers: {
-			"Content-type": "application/json; charset=UTF-8",
-		},
-	});
-
-	fetch(req)
-		.then((result) => result.json())
-		.then((data) => {
-			console.log("response from server");
-			console.log(data.name);
-			console.log(resrc + "Table");
-			if (resrc == "rooms") {
-				console.log(data.users.length);
-				addRow(data.name, resrc + "Table", data.users.length);
-			} else {
-				addRow(data.name, resrc + "Table");
-			}
-		});
-
-	function converFD2JSON(formData) {
-		let obj = {};
-		for (let key of formData.keys()) {
-			obj[key] = formData.get(key);
+function formaddEventListener(resrc) {
+	document.getElementById(resrc + 'Form').addEventListener(
+		'submit',
+		function (event) {
+			fetchForm(event, resrc);
 		}
-		return JSON.stringify(obj);
-	}
+	);
 }
-function addRow(x, y, z) {
-	let t = document.getElementById(y);
-	console.log(t);
-	let r = t.insertRow();
-	let c1 = r.insertCell(0);
-	if (z != undefined) {
-		console.log("z is " + z);
-		let c2 = r.insertCell(1);
-		c2.innerHTML = z;
+
+function convert(fd) {
+	let obj = {};
+	for (let key of fd.keys()) {
+		obj[key] = fd.get(key);
 	}
-	c1.innerHTML = x;
+	return JSON.stringify(obj);
+}
+
+async function roomClicked(n) {
+	session.roomname = n;
+	document.getElementById('room-name').innerHTML = 'Room: ' + n;
+	const rid = await this.fetchRoomID();
+	session.roomID = rid;
+	const pid = await this.fetchPlaylistID();
+	session.playlistID = pid;
+
+	console.log('rid: ' + session.roomID);
+	console.log('pid: ' + session.playlistID);
+
+	if (session.username == null) {
+		buildUsersForm();
+		formaddEventListener('users');
+	} else {
+		renderRoom();
+		fetchPlaylist('playlists/' + session.playlistID);
+	}
 }
