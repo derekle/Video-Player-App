@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    p params[:name]
-    u = User.create!(name: params[:name], room_id: 1)
+    p params
+    u = User.create!(name: params[:name], room_id: params[:room_id])
     render json: u, except: [:created_at, :updated_at]
   end
 
