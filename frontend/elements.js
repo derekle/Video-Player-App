@@ -1,12 +1,12 @@
 function buildTheater(src) {
 	deleteElementByID('theater');
-
+	let s = src.replace('watch?v=', 'embed/');
 	let parent = document.getElementById('main');
 	let element = document.createElement('div');
 	element.className = 'container';
 	element.id = 'theater';
 	let iframe = document.createElement('iframe');
-	iframe.src = src;
+	iframe.src = s;
 	iframe.className = 'movie';
 	iframe.id = 'movie';
 	element.appendChild(iframe);
@@ -56,26 +56,26 @@ function buildUsersForm() {
 	form.appendChild(s);
 	formDiv.appendChild(form);
 	parent.appendChild(formDiv);
-	formaddEventListener('users');
 }
 
-function addRow(n, rs, t, b, l) {
+function addRow(n, rs, t, b, c, l) {
+	console.log(t);
 	const table = document.getElementById(t);
 	const span1 = document.createElement('span');
 	const span2 = document.createElement('span');
 	const body = document.getElementById(b);
 	const r = table.insertRow();
-	r.className = 'tableRow';
-	r.id = rs + 'tableRow';
+	r.className = rs + 'tableRow';
+	r.id = rs + 'tableRow' + c;
 	if (l != undefined) {
 		c1 = r.insertCell(0);
-		c1.className = 'tableCell';
-		c1.id = rs + 'tableCell';
+		c1.className = rs + 'tableCell';
+		c1.id = rs + 'tableCell' + c;
 		span1.appendChild(document.createTextNode(n));
 		c1.appendChild(span1);
 		c2 = r.insertCell(1);
-		c2.className = 'tableCell';
-		c2.id = rs + 'tableCell';
+		c2.className = rs + 'tableCell';
+		c2.id = rs + 'tableCell' + c;
 
 		span2.appendChild(document.createTextNode(l));
 		c2.appendChild(span2);
@@ -84,8 +84,8 @@ function addRow(n, rs, t, b, l) {
 		});
 	} else {
 		c1 = r.insertCell(0);
-		c1.className = 'tableCell';
-		c1.id = rs + 'tableCell';
+		c1.className = rs + 'tableCell';
+		c1.id = rs + 'tableCell' + c;
 
 		span1.appendChild(document.createTextNode(n));
 		c1.appendChild(span1);
@@ -95,6 +95,7 @@ function addRow(n, rs, t, b, l) {
 }
 
 function buildSongForm() {
+	console.log('buildSongForm');
 	deleteElementByID('songsFormDiv');
 
 	//get main div
@@ -110,8 +111,13 @@ function buildSongForm() {
 
 	let input = document.createElement('input');
 	input.setAttribute('type', 'text');
-	input.setAttribute('name', 'name');
+	input.setAttribute('name', 'source');
 	input.setAttribute('placeholder', 'Paste Youtube Link Here');
+
+	let hidden = document.createElement('input');
+	hidden.setAttribute('type', 'hidden');
+	hidden.setAttribute('name', 'playlist_id');
+	hidden.setAttribute('value', session.playlistID);
 	// create a submit button
 	let s = document.createElement('button');
 	s.setAttribute('type', 'submit');
@@ -120,10 +126,68 @@ function buildSongForm() {
 
 	//
 	form.appendChild(input);
+	form.appendChild(hidden);
 	form.appendChild(s);
 	formDiv.appendChild(form);
 	parent.appendChild(formDiv);
-	formaddEventListener('songs');
+	formaddEventListener('songs', 'post');
+}
+
+async function modifyTable(resrc, data) {
+	console.log(resrc);
+	console.log(data);
+	let count = 1;
+
+	if (resrc == 'rooms') {
+		console.log('rooms');
+		for (obj of data) {
+			addRow(
+				obj.name,
+				'rooms',
+				'roomsTable',
+				'roomsBody',
+				count,
+				obj.users.length
+			);
+			count++;
+		}
+	}
+	if (resrc == 'users') {
+		session.username = data.name;
+		session.userID = data.id;
+		updateUserName();
+		deleteElementByID('usersForm');
+		renderRoom();
+	}
+	if (resrc == 'playlist') {
+		for (song of data.songs) {
+			addRow(
+				data.songs.indexOf(song),
+				'playlists',
+				'playlistsTable',
+				'playlistsBody',
+				count,
+				song.source
+			);
+			count++;
+		}
+	}
+	if (resrc == 'songs') {
+		console.log(data);
+		index =
+			document.getElementById('playlistsBody')
+				.lastElementChild.childNodes[0].childNodes[0]
+				.innerText;
+		index++;
+		addRow(
+			index,
+			'playlists',
+			'playlistsTable',
+			'playlistsBody',
+			count,
+			data.source
+		);
+	}
 }
 
 async function buildPlaylist() {
@@ -150,11 +214,9 @@ async function buildPlaylist() {
 }
 
 async function renderRoom() {
-	console.log('render');
-	console.log('rid: ' + session.roomID);
-	console.log('pid: ' + session.playlistID);
-	buildTheater();
-	buildPlaylist()
-		.then(buildSongForm())
-		.then(fetchPlaylist('playlists/' + session.playlistID));
+	plist = await fetchPlaylist('playlists/' + session.playlistID);
+	await buildTheater(plist.songs[0].source);
+	buildPlaylist();
+	buildSongForm();
+	modifyTable('playlist', plist);
 }
