@@ -95,7 +95,8 @@ button:active {
 	font-size: 50px;
 }
 
-.tableRow:hover {
+.playliststableRow:hover,
+.roomstableRow:hover {
 	background-color: #292929;
 	font-weight: bold;
 	cursor: pointer;
@@ -107,31 +108,31 @@ table {
 	border-collapse: collapse;
 }
 
-#playliststableCell {
+.playliststableCell {
 	padding: 5px 10px;
 	position: relative;
 	border-bottom: 1px solid #292929;
 }
-#playliststableRow td:first-child {
+.playliststableRow td:first-child {
 	width: 20px;
 	text-align: center;
 }
-#playliststableRow td:nth-child(2) {
+.playliststableRow td:nth-child(2) {
 	width: 100%;
 }
-#roomstableCell {
+.roomstableCell {
 	padding: 5px 10px;
 	width: 200px;
 	position: relative;
 	border-bottom: 1px solid #292929;
 }
 
-#roomstableCell:after {
+.roomstableCell:after {
 	content: '&nbsp;';
 	visibility: hidden;
 }
 
-#roomstableCell span {
+.roomstableCell span {
 	position: absolute;
 	left: 0;
 	right: 0;
