@@ -1,20 +1,19 @@
 - Room
-Name
-has_one: :playlist
-has_many: :users
-has_many: :songs through: :playlist
+  Name
+  has_one: :gallery
+  has_many: :users
+  has_many: :pictures through: :gallery
 
-- Playlist
-has_many :songs
-belongs_to :room
+- Gallery
+  has_many :pictures
+  belongs_to :room
 
 - User
 
 Name
 belongs_to :room
 
--Song
-Song_ID
+-Picture
+Picture_ID
 source = text
-skipvotes = int
 belongs_to :room
