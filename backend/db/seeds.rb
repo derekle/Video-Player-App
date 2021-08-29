@@ -6,8 +6,18 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Room.create(name: "123abc")
+Room.create(name: "123abc" )
 Room.create(name: "xyz321")
+Playlist.create(room_id: 1)
+Playlist.create(room_id: 2)
+Song.create(source: "https://www.youtube.com/watch?v=2CPnhYYk1aI", playlist_id: 1)
+
+
+Song.create(source: "https://www.youtube.com/watch?v=UseT0_99758", playlist_id: 1)
+
+Song.create(source: "https://www.youtube.com/watch?v=XyNlqQId-nk", playlist_id: 2)
+Song.create(source: "https://www.youtube.com/watch?v=2w7R-z4rkYQ", playlist_id: 2)
+
 
 5.times do
 	u = []
