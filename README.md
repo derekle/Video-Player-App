@@ -1,24 +1,31 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# This is a single-page-application (SPA) where a user can create rooms that hold unique playlists of youtube videos. Users can submit youtube links and they will be added to the playlist. Selecting a video from the playlist will update the video on the page.
 
-Things you may want to cover:
+## INSTALLATION
 
-* Ruby version
+# download this repo, and navigate to ./backend
 
-* System dependencies
+$ type: <rails s> into your console to start the server
 
-* Configuration
+# open up ./frontend/index.html in your preferred browser
 
-* Database creation
+## Acknowledgements
 
-* Database initialization
+# the following resources have been helpful during the development of this project:
 
-* How to run the test suite
+# fetching - https://www.freecodecamp.org/news/how-to-use-fetch-api/
 
-* Services (job queues, cache servers, search engines, etc.)
+# css and html testing - https://www.w3schools.com/css/default.asp
 
-* Deployment instructions
+# youtube api - https://developers.google.com/youtube/iframe_api_reference
 
-* ...
+## BUGS AND DEVELOPMENT NOTES
+
+# FUTURE DEVELOPMENT PLANS
+
+# - remove need for users from the database, since the current project requirements do not allow load/reload to refresh DOM elements. This messes with some of the assumed live updating features such as user count and dynamic playlists
+
+# MAJOR BUGS
+
+# - figure out autoplay on end bug. The current YT api refuses to cooperate with its event listeners on a development server, but seems to work on live servers like on JS fiddle. This prevents listening to when the current video ends for queueing the next video in the playlist.
