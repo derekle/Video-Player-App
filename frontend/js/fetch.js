@@ -52,7 +52,7 @@ function sendForm(req) {
 			.catch((error) => {
 				alert(
 					error +
-						'. Make sure this resource is unique '
+						'. Rooms should be unique. Links should match the format (https://.../watch?v=Video_ID). '
 				);
 			})
 	);
