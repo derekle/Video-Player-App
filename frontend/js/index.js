@@ -29,6 +29,7 @@ async function roomClicked(n) {
 	session.currentSong = null;
 	// remove any players that are on screen
 	deleteElementByID('player');
+	deleteElementByID('container');
 	console.log('roomClicked');
 	// set the local roomname to the argument that's been passed in (the name of the room)
 	session.roomname = n;
