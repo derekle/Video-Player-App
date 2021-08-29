@@ -23,4 +23,11 @@ def index
   def get_song
     song = Song.find_by(id: params[:id]) || User.all
   end
+
+  def validURL?(url)
+    str.length == 43
+    id =  str.split('=')[1]
+    yt = 'https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v='
+    req = yt+id
+  end
 end
