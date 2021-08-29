@@ -95,6 +95,7 @@ button:active {
 	font-size: 50px;
 }
 
+.currentSong,
 .playliststableRow:hover,
 .roomstableRow:hover {
 	background-color: #292929;
@@ -113,10 +114,13 @@ table {
 	position: relative;
 	border-bottom: 1px solid #292929;
 }
+.currentSong td:first-child,
 .playliststableRow td:first-child {
 	width: 20px;
 	text-align: center;
 }
+
+.currentSong td:nth-child(2),
 .playliststableRow td:nth-child(2) {
 	width: 100%;
 }
