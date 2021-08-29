@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_21_004444) do
+ActiveRecord::Schema.define(version: 2021_08_27_142231) do
 
   create_table "playlists", force: :cascade do |t|
     t.integer "room_id", null: false
@@ -26,12 +26,11 @@ ActiveRecord::Schema.define(version: 2021_08_21_004444) do
   end
 
   create_table "songs", force: :cascade do |t|
+    t.integer "playlist_id", null: false
     t.string "source"
-    t.integer "votes"
-    t.integer "room_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["room_id"], name: "index_songs_on_room_id"
+    t.index ["playlist_id"], name: "index_songs_on_playlist_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -43,6 +42,6 @@ ActiveRecord::Schema.define(version: 2021_08_21_004444) do
   end
 
   add_foreign_key "playlists", "rooms"
-  add_foreign_key "songs", "rooms"
+  add_foreign_key "songs", "playlists"
   add_foreign_key "users", "rooms"
 end
