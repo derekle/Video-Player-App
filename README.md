@@ -24,6 +24,8 @@ This is a single-page-application (SPA) where a user can create rooms that hold 
 
 -remove need for users from the database, since the current project requirements do not allow load/reload to refresh DOM elements. This messes with some of the assumed live updating features such as user count and dynamic playlists
 
+- add way to check for valid YT links.
+
 ## MAJOR BUGS
 
 -figure out autoplay on end bug. The current YT api refuses to cooperate with its event listeners on a development server, but seems to work on live servers like on JS fiddle. This prevents listening to when the current video ends for queueing the next video in the playlist.
