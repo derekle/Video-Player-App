@@ -51,7 +51,10 @@ function buildSongForm() {
 	let input = document.createElement('input');
 	input.setAttribute('type', 'text');
 	input.setAttribute('name', 'source');
-	input.setAttribute('placeholder', 'Paste Youtube Link Here');
+	input.setAttribute(
+		'placeholder',
+		'https://www.youtube.com/watch?v=VIDEO_ID'
+	);
 
 	let hidden = document.createElement('input');
 	hidden.setAttribute('type', 'hidden');
