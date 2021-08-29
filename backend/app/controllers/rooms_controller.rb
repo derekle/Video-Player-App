@@ -7,6 +7,7 @@ class RoomsController < ApplicationController
 	def create
 		p params[:name]
 		r = Room.create!(name: params[:name])
+		pl = Playlist.create!(room_id:r.id)
 		render json: r, except: [:created_at, :updated_at], include: [:users, :playlist]
 	end
 
