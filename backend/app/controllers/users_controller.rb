@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def index
-    render json: get_user, except: [:created_at, :updated_at]
+    users = User.all
+    render json: users, except: [:created_at, :updated_at]
   end
 
   def create
