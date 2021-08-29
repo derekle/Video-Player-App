@@ -1,6 +1,8 @@
 class SongsController < ApplicationController
 def index
-    render json: get_song, except: [:created_at, :updated_at]
+    songs = Song.all
+
+    render json: songs, except: [:created_at, :updated_at]
   end
 
   def create
