@@ -55,7 +55,7 @@ async function roomClicked(n) {
 	/* users will enter username when entering a room, beginning their session.
 	if user is already created, render the room*/
 	if (session.username == null) {
-		buildUsersForm();
+		buildForm('users');
 		formaddEventListener('users', 'post');
 	} else {
 		renderRoom();
