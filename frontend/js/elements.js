@@ -8,7 +8,7 @@ async function renderRoom() {
 	}
 	loadYTAPI();
 	buildPlaylist();
-	buildSongForm();
+	buildForm('songs');
 	modifyTable('playlist', session.playlist);
 }
 
@@ -32,80 +32,64 @@ function updateDOMRoomName() {
 
 // FORMS //
 
-// function for building the form for taking in youtube links
-function buildSongForm() {
-	console.log('buildSongForm');
-	deleteElementByID('songsFormDiv');
-
+// function for building the forms
+function buildForm(resrc) {
+	console.log(resrc);
+	deleteElementByID(resrc + 'FormDiv');
 	//get main div
 	let parent = document.getElementById('main');
 	//create form div
 	let formDiv = document.createElement('div');
-	formDiv.id = 'songsFormDiv';
+	formDiv.id = resrc + 'FormDiv';
 
 	//build form tag
 	let form = document.createElement('form');
-	form.id = 'songsForm';
+	form.id = resrc + 'Form';
 	form.className = 'form';
 
-	let input = document.createElement('input');
-	input.setAttribute('type', 'text');
-	input.setAttribute('name', 'source');
-	input.setAttribute(
-		'placeholder',
-		'https://www.youtube.com/watch?v=VIDEO_ID'
-	);
-
-	let hidden = document.createElement('input');
-	hidden.setAttribute('type', 'hidden');
-	hidden.setAttribute('name', 'playlist_id');
-	hidden.setAttribute('value', session.playlistID);
-	// create a submit button
-	let s = document.createElement('button');
-	s.setAttribute('type', 'submit');
-	s.setAttribute('value', 'Submit');
-	s.innerText = ' >';
-
-	//
-	form.appendChild(input);
-	form.appendChild(hidden);
-	form.appendChild(s);
-	formDiv.appendChild(form);
-	parent.appendChild(formDiv);
-	formaddEventListener('songs', 'post');
-}
-// function to build the form for entering user name
-function buildUsersForm() {
-	deleteElementByID('usersFormDiv');
-	//get main div
-	let parent = document.getElementById('main');
-	//create form div
-	let formDiv = document.createElement('div');
-	formDiv.id = 'usersFormDiv';
-	//build form tag
-	let form = document.createElement('form');
-	form.id = 'usersForm';
-	form.className = 'form';
 	//create input
 	let input = document.createElement('input');
-	input.setAttribute('type', 'text');
-	input.setAttribute('name', 'name');
-	input.setAttribute('placeholder', 'Name');
+
+	if (resrc == 'songs') {
+		input.setAttribute('type', 'text');
+		input.setAttribute('name', 'source');
+		input.setAttribute(
+			'placeholder',
+			'https://www.youtube.com/watch?v=VIDEO_ID'
+		);
+	} else if (resrc == 'users') {
+		input.setAttribute('type', 'text');
+		input.setAttribute('name', 'name');
+		input.setAttribute('placeholder', 'Name');
+	}
 
 	let hidden = document.createElement('input');
-	hidden.setAttribute('type', 'hidden');
-	hidden.setAttribute('name', 'room_id');
-	hidden.setAttribute('value', session.roomID);
-	// create a submit button
 	let s = document.createElement('button');
-	s.setAttribute('type', 'submit');
-	s.innerText = ' Create';
+	hidden.setAttribute('type', 'hidden');
+	if (resrc == 'songs') {
+		hidden.setAttribute('name', 'playlist_id');
+		hidden.setAttribute('value', session.playlistID);
+		s.setAttribute('type', 'submit');
+		s.setAttribute('value', 'Submit');
+		s.innerText = ' >';
+	} else if (resrc == 'users') {
+		hidden.setAttribute('type', 'hidden');
+		hidden.setAttribute('name', 'room_id');
+		hidden.setAttribute('value', session.roomID);
+		s.setAttribute('type', 'submit');
+		s.innerText = ' Create';
+	}
+
 	//
 	form.appendChild(input);
 	form.appendChild(hidden);
 	form.appendChild(s);
 	formDiv.appendChild(form);
 	parent.appendChild(formDiv);
+
+	if (resrc == 'songs') {
+		formaddEventListener(resrc, 'post');
+	}
 }
 
 // VIDEO PLAYER //
