@@ -17,6 +17,17 @@ input {
 	padding: 10px;
 }
 
+#refresh img {
+	width: 25px;
+	align-items: center;
+}
+#refresh img:hover {
+	width: 27px;
+}
+#refresh img:active {
+	width: 25px;
+}
+
 button {
 	width: 65px;
 	padding: 10px;
