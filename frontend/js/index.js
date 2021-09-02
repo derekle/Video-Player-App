@@ -4,7 +4,19 @@
 document.addEventListener('DOMContentLoaded', async () => {
 	let data = await fetchRoom();
 	modifyTable('rooms', data);
-	formaddEventListener('rooms', 'post');
+
+	const refreshBtn = document.getElementById('refresh');
+	refreshBtn.addEventListener('click', async function () {
+		document.querySelectorAll('.roomstableRow').forEach(function (
+			a
+		) {
+			a.remove();
+		});
+		data = await fetchRoom();
+
+		modifyTable('rooms', data);
+		formaddEventListener('rooms', 'post');
+	});
 });
 
 // function for creating click listeners to any table object
