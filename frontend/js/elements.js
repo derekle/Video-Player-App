@@ -18,6 +18,19 @@ function deleteElementByID(id) {
 	if (element) element.parentNode.removeChild(element);
 }
 
+//function to set current room in room table to html class current room
+async function setDOMCurrentRoom(id, element) {
+	await console.log(element);
+	let e = await document.getElementsByClassName('currentRoom');
+	if (e.length > 0) {
+		console.log(e);
+		e[0].className = 'roomstableRow';
+	}
+	if (element.className == 'roomstableRow') {
+		element.className = 'currentRoom';
+	}
+}
+
 // show the current user's name
 function updateDOMUserName() {
 	document.getElementById('user name').innerHTML =
@@ -135,76 +148,88 @@ async function buildPlaylist() {
 }
 // function for updating the tables.
 async function modifyTable(resrc, data) {
-	console.log(data);
-	let count = 1;
-
 	if (resrc == 'rooms') {
-		if (isIterable(data)) {
-			for (obj of data) {
-				addRow(
-					obj.name,
-					'rooms',
-					'roomsTable',
-					'roomsBody',
-					count,
-					obj.users.length
-				);
-				count++;
-			}
-		} else {
+		await roomsTable(resrc, data);
+	}
+	if (resrc == 'users') {
+		await usersTable(resrc, data);
+	}
+	if (resrc == 'playlist') {
+		await playlistsTable(resrc, data);
+	}
+	if (resrc == 'songs') {
+		await songsTable(resrc, data);
+	}
+}
+async function roomsTable(resrc, data) {
+	let count = 1;
+	if (isIterable(data)) {
+		for (obj of data) {
 			addRow(
-				data.name,
+				obj.name,
 				'rooms',
 				'roomsTable',
 				'roomsBody',
 				count,
-				data.users.length
+				obj.users.length
 			);
 			count++;
 		}
+	} else {
+		addRow(
+			data.name,
+			'rooms',
+			'roomsTable',
+			'roomsBody',
+			count,
+			data.users.length
+		);
+		count++;
 	}
-	if (resrc == 'users') {
-		session.username = data.name;
-		session.userID = data.id;
-		updateDOMUserName();
-		deleteElementByID('usersForm');
-		renderRoom();
-	}
-	if (resrc == 'playlist') {
-		for (song of data.songs) {
-			index = data.songs.indexOf(song);
-			index++;
-			addRow(
-				index,
-				'playlists',
-				'playlistsTable',
-				'playlistsBody',
-				count,
-				song.source
-			);
-			count++;
-		}
-	}
-	if (resrc == 'songs') {
-		console.log('songs');
-		const first = await isFirstSong();
-		await session.playlist.songs.push(data);
-		index = session.playlist.songs.indexOf(data);
+}
+async function playlistsTable(resrc, data) {
+	let count = 1;
+	for (song of data.songs) {
+		index = data.songs.indexOf(song);
 		index++;
-		if (first) {
-			console.log('first Song');
-			formatURL(session.playlist.songs[0].source);
-			renderRoom();
-		} else {
-			addRow(
-				index,
-				'playlists',
-				'playlistsTable',
-				'playlistsBody',
-				count,
-				data.source
-			);
-		}
+		addRow(
+			index,
+			'playlists',
+			'playlistsTable',
+			'playlistsBody',
+			count,
+			song.source
+		);
+		count++;
+	}
+}
+async function usersTable(resrc, data) {
+	session.username = data.name;
+	session.userID = data.id;
+	updateDOMUserName();
+	deleteElementByID('usersForm');
+	renderRoom();
+}
+async function songsTable(resrc, data) {
+	let count = 1;
+	console.log('songs');
+	const first = await isFirstSong();
+	await session.playlist.songs.push(data);
+	index = session.playlist.songs.indexOf(data);
+	index++;
+	if (first) {
+		console.log('first Song');
+		formatURL(session.playlist.songs[0].source);
+		renderRoom();
+	} else {
+		addRow(
+			index,
+			'playlists',
+			'playlistsTable',
+			'playlistsBody',
+			count,
+			data.source
+		);
 	}
 }
 /* function to add rows in the tables. takes up to 6 arguments
@@ -243,7 +268,7 @@ function addRow(n, rs, t, b, c, l) {
 		c2.appendChild(span2);
 		if (rs == 'rooms') {
 			r.addEventListener('click', function () {
-				roomClicked(n);
+				roomClicked(n, this);
 			});
 		} else if (rs == 'playlists') {
 			r.addEventListener('click', function () {
