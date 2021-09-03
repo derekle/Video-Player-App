@@ -3,6 +3,8 @@
 // On app startup, render room list.
 document.addEventListener('DOMContentLoaded', async () => {
 	let data = await fetchRoom();
+	formaddEventListener('rooms', 'post');
+
 	modifyTable('rooms', data);
 
 	const refreshBtn = document.getElementById('refresh');
@@ -36,7 +38,7 @@ function formaddEventListener(resrc, method) {
 }
 
 // the function that is called when a user clicks on a room. assigned when building the table in addRow
-async function roomClicked(n) {
+async function roomClicked(n, $this) {
 	// reset the current song, since we're entering a new room
 	session.currentSong = null;
 	// remove any players that are on screen
@@ -51,7 +53,7 @@ async function roomClicked(n) {
 	// get the room id
 	const rid = await this.fetchRoomID();
 	session.roomID = rid;
-
+	setDOMCurrentRoom(rid, $this);
 	// get the playlist id
 	const pid = await this.fetchPlaylistID();
 	session.playlistID = pid;
