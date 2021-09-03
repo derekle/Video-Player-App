@@ -7,6 +7,7 @@ original function that called it */
 //////////////////////////////////////////////////
 
 function fillForm(ev, resrc, method) {
+	console.log('fillForm');
 	//debugger;
 	// stop page from refreshing on submit
 	ev.preventDefault();
@@ -40,6 +41,8 @@ function errors(response) {
 // POST Requests //
 ///////////////////////
 function sendForm(req) {
+	console.log('sendForm');
+
 	return (
 		fetch(req)
 			.then(errors)
@@ -62,6 +65,8 @@ function sendForm(req) {
 // GET Requests//
 /////////////////////
 function fetchRoom() {
+	console.log('fetchRoom');
+
 	return (
 		fetch('http://localhost:3000/rooms')
 			//deserialize js to return objects
@@ -72,6 +77,8 @@ function fetchRoom() {
 }
 
 function fetchPlaylist(resrc) {
+	console.log('fetchPlaylist');
+
 	return (
 		fetch('http://localhost:3000/' + resrc)
 			//deserialize js to return objects
@@ -82,6 +89,8 @@ function fetchPlaylist(resrc) {
 }
 
 function fetchUser(resrc) {
+	console.log('fetchUser');
+
 	fetch('http://localhost:3000/' + resrc)
 		//deserialize js to return objects
 		.then((response) => response.json())
@@ -104,6 +113,8 @@ function fetchUser(resrc) {
 // Fetch IDS //
 /////////////////
 function fetchRoomID() {
+	console.log('fetchRoomID');
+
 	return fetch('http://localhost:3000/rooms')
 		.then((response) => response.json())
 		.then((data) => {
@@ -116,6 +127,8 @@ function fetchRoomID() {
 }
 
 function fetchPlaylistID() {
+	console.log('fetchPlaylistID');
+
 	return fetch('http://localhost:3000/playlists')
 		.then((response) => response.json())
 		.then((data) => {
