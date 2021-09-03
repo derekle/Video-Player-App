@@ -2,26 +2,32 @@
 
 // On app startup, render room list.
 document.addEventListener('DOMContentLoaded', async () => {
-	let data = await fetchRoom();
-	formaddEventListener('rooms', 'post');
-
-	modifyTable('rooms', data);
-
-	const refreshBtn = document.getElementById('refresh');
-	refreshBtn.addEventListener('click', async function () {
-		document.querySelectorAll('.roomstableRow').forEach(function (
-			a
-		) {
-			a.remove();
-		});
-		data = await fetchRoom();
-
-		modifyTable('rooms', data);
-		formaddEventListener('rooms', 'post');
-	});
+	await buildroomList();
+	refreshBtn();
 });
 
 // function for creating click listeners to any table object
+async function buildroomList() {
+	let data = await fetchRoom();
+	formaddEventListener('rooms', 'post');
+	modifyTable('rooms', data);
+}
+
+function refreshBtn() {
+	debugger;
+
+	const refreshBtn = document.getElementById('refresh');
+	refreshBtn.addEventListener('click', async function () {
+		document.querySelectorAll('.currentRoom').forEach((a) =>
+			a.remove()
+		);
+		document.querySelectorAll('.roomstableRow').forEach((a) =>
+			a.remove()
+		);
+		buildroomList();
+	});
+}
+
 function formaddEventListener(resrc, method) {
 	document.getElementById(resrc + 'Form').addEventListener(
 		'submit',
