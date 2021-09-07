@@ -1,0 +1,17 @@
+.createButton {
+	background-color: #000000; /* Green */
+	border-color: white;
+	color: white;
+	padding: 5px 15px;
+	text-align: center;
+	display: inline-block;
+	font-size: 25px;
+	font-weight: lighter;
+}
+.createButton:hover {
+	border-color: #292929;
+}
+#songsForm input,
+#roomsForm input {
+	width: 55%;
+}
