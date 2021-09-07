@@ -31,7 +31,6 @@ function formaddEventListener(resrc, method) {
 		'submit',
 		//when a user hits submit:
 		async function (event) {
-			debugger;
 			//[ 1 ] collect the data and package it into a request variable (JSON object)
 			let request = fillForm(event, resrc, method);
 			//[ 2 ] POST request to server, await for response
@@ -45,43 +44,43 @@ function formaddEventListener(resrc, method) {
 
 // the function that is called when a user clicks on a room. assigned when building the table in addRow
 async function roomClicked(n, $this) {
+	// user clicked element
 	console.log('roomClicked');
-	// reset the current song, since we're entering a new room
-	session.currentSong = null;
-	// remove any players that are on screen
-	deleteElementByID('player');
-	deleteElementByID('container');
-	// set the local roomname to the argument that's been passed in (the name of the room)
-	//session.roomname = n;
-	//Update DOM element - screen should now show the current room the user is in
-	updateDOMRoomName(n);
-	// get the room id
+
+	// interact with server
 	const currentRoom = await this.fetchRoomByName(n);
-	session.currentRoom = currentRoom;
-	//session.roomID = rid;
-	// highlight selected room by updating html class for css styling
-	setDOMCurrentRoom($this);
-	// get the playlist id
 	const currentPlaylist = await this.fetchPlaylistByRoomID(
 		currentRoom.id
 	);
-	//session.playlistID = pid;
-	session.currentPlaylist = currentPlaylist;
-	// get the playlist
 	const plist = await fetchPlaylist(currentPlaylist.id);
+
+	session.currentSong = null;
+	session.currentRoom = currentRoom;
+	session.currentPlaylist = currentPlaylist;
+
+	// update DOM
+	deleteElementByID('player');
+	deleteElementByID('container');
+	deleteAllChildNodesByID('playlistsTable');
+	setDOMCurrentRoom($this);
+	updateDOMRoomName(n);
 	setPlaylist(plist);
 
-	// if the room has an existing playlist with songs in it, set the first song to be the current song
-	if (session.playlist.songs[0]) {
-		formatURL(session.playlist.songs[0].source);
-	}
-	/* users will enter username when entering a room, beginning their session.
-	if user is already created, render the room*/
-	if (session.username == null) {
+	if (session.currentUser) {
+		session.currentUser.room_id = session.currentRoom.id;
+		patchResource('users', session.currentUser);
+		if (session.playlist.songs[0]) {
+			renderRoom();
+		} else {
+			if (session.currentPlaylist.songs.length > 0) {
+				formatURL(
+					session.currentPlaylist.songs[0].source
+				);
+			}
+		}
+	} else {
 		buildForm('users');
 		formaddEventListener('users', 'post');
-	} else {
-		renderRoom();
 	}
 }
 
