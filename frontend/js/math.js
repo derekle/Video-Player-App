@@ -14,5 +14,5 @@ function convert(fd) {
 
 // Function to find out if the playlist is getting it's first song
 function isFirstSong() {
-	return session.playlist.length == 0;
+	return session.currentPlaylist.length == 0;
 }

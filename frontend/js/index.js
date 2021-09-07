@@ -69,7 +69,7 @@ async function roomClicked(n, $this) {
 	if (session.currentUser) {
 		session.currentUser.room_id = session.currentRoom.id;
 		patchResource('users', session.currentUser);
-		if (session.playlist.songs[0]) {
+		if (session.currentPlaylist.songs[0]) {
 			renderRoom();
 		} else {
 			if (session.currentPlaylist.songs.length > 0) {

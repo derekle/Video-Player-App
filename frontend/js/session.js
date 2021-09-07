@@ -20,7 +20,7 @@ function updateSong(element) {
 // function to update playlist
 function setPlaylist(playlist) {
 	console.log('setPlaylist');
-	session.playlist = playlist;
+	session.currentPlaylist = playlist;
 }
 
 // function to set the room id and name

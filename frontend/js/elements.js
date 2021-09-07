@@ -9,7 +9,7 @@ async function renderRoom() {
 	loadYTAPI();
 	buildPlaylist();
 	buildForm('songs');
-	modifyTable('playlist', session.playlist);
+	modifyTable('playlist', session.currentPlaylist);
 }
 
 // function to delete an element by the id in the argument. if the id exists on the dom, it will be destroyed
@@ -21,11 +21,10 @@ function deleteElementByID(id) {
 function deleteAllChildNodesByID(c) {
 	let e = document.getElementById(c);
 	if (e) {
-			while (e.firstChild) {
-				e.removeChild(e.firstChild);
-			}
+		while (e.firstChild) {
+			e.removeChild(e.firstChild);
+		}
 	}
-
 }
 
 //function to set current room in room table to html class current room
@@ -222,12 +221,12 @@ async function songsTable(resrc, data) {
 	let count = 1;
 	console.log('songsTable');
 	const first = await isFirstSong();
-	await session.playlist.songs.push(data);
-	index = session.playlist.songs.indexOf(data);
+	await session.currentPlaylist.songs.push(data);
+	index = session.currentPlaylist.songs.indexOf(data);
 	index++;
 	if (first) {
-		console.log('first Song');
-		formatURL(session.playlist.songs[0].source);
+		console.log('First Song');
+		formatURL(session.currentPlaylist.songs[0].source);
 		renderRoom();
 	} else {
 		addRow(
@@ -295,5 +294,5 @@ function addRow(n, rs, t, b, c, l) {
 	}
 
 	// append the row to the tbody
-	body.appendChild(r);
+	// body.appendChild(r);
 }
