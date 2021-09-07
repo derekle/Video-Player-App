@@ -61,6 +61,38 @@ function sendForm(req) {
 	);
 }
 
+function patchResource(resrc, data) {
+	console.log('postResource');
+	console.log(resrc);
+	let json = JSON.stringify(data);
+	let url = 'http://localhost:3000/' + resrc + '/' + data.id;
+	console.log(url);
+	let req = new Request(url, {
+		body: json,
+		method: 'PATCH',
+		headers: {
+			'Content-type': 'application/json; charset=UTF-8',
+		},
+	});
+
+	console.log(req);
+	return (
+		fetch(req)
+			.then(errors)
+			// receive response
+			.then((response) => response.json())
+			// throw out junk mail
+			.then((data) => {
+				return data;
+			})
+			.catch((error) => {
+				alert(
+					error +
+						'. Rooms should be unique. Links should match the format (https://.../watch?v=Video_ID). '
+				);
+			})
+	);
+}
 /////////////////////
 // GET Requests//
 /////////////////////
