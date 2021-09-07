@@ -14,6 +14,11 @@ class UsersController < ApplicationController
     render json: get_user, except: [:created_at, :updated_at]
   end
 
+  def update
+      get_user.update!(room_id: params[:room_id])
+      render json: get_user, except: [:created_at, :updated_at]
+  end
+
   def destroy
     get_user.destroy
   end
