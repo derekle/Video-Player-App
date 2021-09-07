@@ -19,7 +19,7 @@ function deleteElementByID(id) {
 }
 
 //function to set current room in room table to html class current room
-async function setDOMCurrentRoom(id, element) {
+async function setDOMCurrentRoom(element) {
 	await console.log(element);
 	let e = await document.getElementsByClassName('currentRoom');
 	if (e.length > 0) {
@@ -38,9 +38,8 @@ function updateDOMUserName() {
 }
 
 // show the current room name
-function updateDOMRoomName() {
-	document.getElementById('room-name').innerHTML =
-		'Room: ' + session.roomname;
+function updateDOMRoomName(name) {
+	document.getElementById('room-name').innerHTML = 'Room: ' + name;
 }
 
 // FORMS //
@@ -81,14 +80,14 @@ function buildForm(resrc) {
 	hidden.setAttribute('type', 'hidden');
 	if (resrc == 'songs') {
 		hidden.setAttribute('name', 'playlist_id');
-		hidden.setAttribute('value', session.playlistID);
+		hidden.setAttribute('value', session.currentPlaylist.id);
 		s.setAttribute('type', 'submit');
 		s.setAttribute('value', 'Submit');
 		s.innerText = ' >';
 	} else if (resrc == 'users') {
 		hidden.setAttribute('type', 'hidden');
 		hidden.setAttribute('name', 'room_id');
-		hidden.setAttribute('value', session.roomID);
+		hidden.setAttribute('value', session.currentRoom.id);
 		s.setAttribute('type', 'submit');
 		s.innerText = ' Create';
 	}
