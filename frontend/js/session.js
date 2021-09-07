@@ -1,26 +1,7 @@
-/* Create session class to hold fetched data locally,
+/* Create session object to hold fetched data locally,
 so we dont have to fetch all the time.*/
 
-let Session = class {
-	constructor(
-		roomname,
-		roomID,
-		username,
-		userID,
-		playlistID,
-		currentSong,
-		playlist
-	) {
-		this.roomname = roomname;
-		this.roomID = roomID;
-		this.username = username;
-		this.userID = userID;
-		this.playlistID = playlistID;
-		this.currentSong = currentSong;
-		this.playlist = playlist;
-	}
-};
-let session = new Session(null, null, null, null, null, null, []);
+const session = {};
 
 // function to format url to an embed
 function formatURL(song) {
