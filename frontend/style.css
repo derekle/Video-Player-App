@@ -91,7 +91,7 @@ button:active {
 	display: block;
 	width: 100%;
 	overflow: auto;
-	height: 250px;
+	max-height: 250px;
 }
 
 #playlistsTable thead tr,
