@@ -42,7 +42,7 @@ function errors(response) {
 ///////////////////////
 function sendForm(req) {
 	console.log('sendForm');
-
+	console.log(req);
 	return (
 		fetch(req)
 			.then(errors)
@@ -80,7 +80,7 @@ function fetchPlaylist(resrc) {
 	console.log('fetchPlaylist');
 
 	return (
-		fetch('http://localhost:3000/' + resrc)
+		fetch('http://localhost:3000/playlists/' + resrc)
 			//deserialize js to return objects
 			.then((response) => response.json())
 			//extract data from array of objects
@@ -112,29 +112,29 @@ function fetchUser(resrc) {
 /////////////////
 // Fetch IDS //
 /////////////////
-function fetchRoomID() {
+function fetchRoomByName(name) {
 	console.log('fetchRoomID');
 
 	return fetch('http://localhost:3000/rooms')
 		.then((response) => response.json())
 		.then((data) => {
 			for (room of data) {
-				if (session.roomname == room.name) {
-					return room.id;
+				if (name == room.name) {
+					return room;
 				}
 			}
 		});
 }
 
-function fetchPlaylistID() {
+function fetchPlaylistByRoomID(rid) {
 	console.log('fetchPlaylistID');
 
 	return fetch('http://localhost:3000/playlists')
 		.then((response) => response.json())
 		.then((data) => {
 			for (playlist of data) {
-				if (session.roomID == playlist.room_id) {
-					return playlist.id;
+				if (rid == playlist.room_id) {
+					return playlist;
 				}
 			}
 		});
