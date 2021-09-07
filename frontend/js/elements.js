@@ -18,6 +18,16 @@ function deleteElementByID(id) {
 	if (element) element.parentNode.removeChild(element);
 }
 
+function deleteAllChildNodesByID(c) {
+	let e = document.getElementById(c);
+	if (e) {
+			while (e.firstChild) {
+				e.removeChild(e.firstChild);
+			}
+	}
+
+}
+
 //function to set current room in room table to html class current room
 async function setDOMCurrentRoom(element) {
 	await console.log(element);
@@ -34,7 +44,7 @@ async function setDOMCurrentRoom(element) {
 // show the current user's name
 function updateDOMUserName() {
 	document.getElementById('user name').innerHTML =
-		'User: ' + session.username;
+		'User: ' + session.currentUser.name;
 }
 
 // show the current room name
@@ -141,9 +151,9 @@ async function buildPlaylist() {
 
 	//
 	h1.appendChild(hr);
-	label.appendChild(h1);
-	table.appendChild(label);
-	parent.appendChild(table);
+	table.appendChild(h1);
+	label.appendChild(table);
+	parent.appendChild(label);
 }
 // function for updating the tables.
 async function modifyTable(resrc, data) {
@@ -203,15 +213,14 @@ async function playlistsTable(resrc, data) {
 	}
 }
 async function usersTable(resrc, data) {
-	session.username = data.name;
-	session.userID = data.id;
+	session.currentUser = data;
 	updateDOMUserName();
 	deleteElementByID('usersForm');
 	renderRoom();
 }
 async function songsTable(resrc, data) {
 	let count = 1;
-	console.log('songs');
+	console.log('songsTable');
 	const first = await isFirstSong();
 	await session.playlist.songs.push(data);
 	index = session.playlist.songs.indexOf(data);
